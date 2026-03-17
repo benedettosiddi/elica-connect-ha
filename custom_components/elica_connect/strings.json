@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Elica Connect Login",
+        "description": "Inserisci le credenziali dell'app Elica Connect",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "select_device": {
+        "title": "Seleziona dispositivo",
+        "data": {
+          "device_id": "Dispositivo"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Email o password non validi",
+      "cannot_connect": "Impossibile raggiungere il server Elica",
+      "no_devices": "Nessun dispositivo trovato sull'account",
+      "unknown": "Errore sconosciuto"
+    },
+    "abort": {
+      "already_configured": "Dispositivo già configurato"
+    }
+  }
+}
