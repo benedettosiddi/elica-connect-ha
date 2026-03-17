@@ -46,3 +46,10 @@ LIGHT_BRIGHTNESS_MAX_ELICA = 100  # capability 96: 0–100 (%)
 # Command type
 COMMAND_TYPE = "Hood"
 COMMAND_TIMEOUT = 30000  # ms
+
+# MQTT (cloud push, confirmed via APK reverse engineering + live capture)
+MQTT_HOST = "cloudprodmqtt.elica.com"
+MQTT_PORT = 8883
+MQTT_TOPIC_STATE = "v1/device/{cuid}/statusjson"
+# Fallback poll interval when MQTT is connected (5 min sanity check)
+SCAN_INTERVAL_MQTT = 300

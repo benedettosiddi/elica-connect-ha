@@ -19,7 +19,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, CONF_DEVICE_ID, CONF_DEVICE_NAME
-from .coordinator import ElicaConnectAPI, ElicaConnectCoordinator
+from .coordinator import ElicaConnectAPI, ElicaConnectCoordinator  # noqa: F401
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -44,6 +44,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await coordinator.async_config_entry_first_refresh()
 
+    # Start MQTT push updates (cuid is now available from first REST poll)
+    coordinator.async_start_mqtt()
+
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -53,5 +56,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     if unloaded := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        hass.data[DOMAIN].pop(entry.entry_id)
+        coordinator: ElicaConnectCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
+        coordinator.stop_mqtt()
     return unloaded
